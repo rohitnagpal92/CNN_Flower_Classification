@@ -123,9 +123,13 @@ Please find attached python "ipynb" script which contains complete model impleme
 ### Demonstration of output using saved models:
 I created an interactive script in Google Colab which does the following:
 ●	Load the saved models trained by us. Models are: DenseNet201 and EfficientNetB7
+
 ●	Asks user to provide any flower image url for the prediction
+
 ●	Download the flower image from given url 
+
 ●	Process the image to convert it into size of (512, 512, 3) as our model is trained on that size
+
 ●	Predict the class of the flower and shows with predicted result
 
 
