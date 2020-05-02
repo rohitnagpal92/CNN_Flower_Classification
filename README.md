@@ -83,8 +83,7 @@ o	trained all convolutional layers (as a part of fine tuning)
 ❖	Regularizer: EarlyStopping, LearningRateScheduler
 
 ##### Dataset: Size 512x512 
-o	For Training used sets of both Training and Validation Images to provide the model with a greater number of images - 12753 training images + 3712 validation images
-o	7382 unlabeled test images 
+For Training used sets of both Training and Validation Images to provide the model with a greater number of images - 12753 training images + 3712 validation images and 7382 unlabeled test images 
 
 ##### Performance:  
 ~99-100% Training Accuracy
@@ -99,10 +98,35 @@ While predicting the class of test images, we calculated probabilities from both
 ❖	Model took more time to converge due to low learning rate with higher epochs and having two different models
 ❖	But the overall model's accuracy improved significantly, and we achieved the highest rank of 54 out of 700 participating teams.
 
+## 4.	Model Optimization
+### Learning Rate Scheduler
+(https://keras.io/callbacks/#learningratescheduler)
+
+It adjusts the learning rate over time using a schedule that we write beforehand. This function returns the desired learning rate (output) based on the current epoch (epoch index as input).
+keras.callbacks.callbacks.LearningRateScheduler(schedule, verbose=0) 
+schedule: a function that takes an epoch index as input (integer, indexed from 0) and current learning rate and returns a new learning rate as output (float). verbose: int. 0: quiet, 1: update messages.
+In our model, we are reducing the learning rate over the time during the training. Here is the scheduler defined for the learning rate in our model: 
+
+a)	For first 4 epochs, we start with learning rate = 0.0001 (lr_min) multiplied with some random number (between 0 to 1) 
+
+b)	For the epochs from 5 to 10, we used learning rate = 0.0008 (lr_max) 
+
+c) for the epochs after 10, learning rate = (max_lr -min_lr)*decay_rate^(epoch-10) + 0.0001 
+
+These have the benefit of making large changes at the beginning of the training procedure when larger learning rate values are used, and decreasing the learning rate such that a smaller rate and therefore smaller training updates are made to weights later in the training procedure. This has the effect of quickly learning good weights early and fine tuning them later.
+
+## 5.	Python Code:
+### Complete python script:
+Please find attached python "ipynb" script which contains complete model implementation and training. We managed to achive more than 98% of test accuracy using our model.
 
 
-
-
+### Demonstration of output using saved models:
+I created an interactive script in Google Colab which does the following:
+●	Load the saved models trained by us. Models are: DenseNet201 and EfficientNetB7
+●	Asks user to provide any flower image url for the prediction
+●	Download the flower image from given url 
+●	Process the image to convert it into size of (512, 512, 3) as our model is trained on that size
+●	Predict the class of the flower and shows with predicted result
 
 
 
